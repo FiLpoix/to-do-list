@@ -1,19 +1,40 @@
-from django.shortcuts import render, get_object_or_404, redirect
-from .models import Task
+from django.shortcuts import get_object_or_404, redirect, render
 from tasks.forms import TaskForm
-
-# Create your views here.
-def  task_list(request):
-    tasks = Task.objects.all()
-    return render(request, 'tasks/task_list.html', {'tasks':tasks})
-
+from tasks.models import Task
+ 
+def task_list(request):
+  tasks = Task.objects.all()
+  return render(request, 'tasks/task_list.html', {'tasks': tasks})
+ 
+# Atualizar Tarefas
 def task_update(request, pk):
-    task = get_object_or_404(Task, pk=pk)
-    if request.method == 'POST':
-        form = TaskForm(request.POST, instance=task)
-        if form.is_valid():
-            form.save()
-            return redirect(task_list)
-        else:
-            form = TaskForm(instance=task)
-            return render(request, 'tasks/task_update.html', {'form': form, 'tasks':task})
+  task = get_object_or_404(Task, pk=pk)
+ 
+  if request.method =='POST':
+    form = TaskForm(request.POST, instance=task)
+    if form.is_valid():
+      form.save()
+      return redirect(task_list)
+  else:
+    form = TaskForm(instance=task)
+    return render(request, 'tasks/task_update.html', {'form': form, 'task': task})
+  
+# criar tarefas
+def task_create(request):
+  if request.method == 'POST':
+   form = TaskForm(request.POST)
+   if form.is_valid():
+    form.save()
+    return redirect('task_list')
+  else:
+    form = TaskForm()
+    return render(request, 'tasks/task_create.html', {'form': form})
+
+
+# deletar tarefas
+def task_delete(request, pk):
+  task = get_object_or_404(Task, pk=pk)
+  if request.method == 'POST':
+    task.delete()
+    return redirect('task_list')
+  return render(request, 'tasks/task_delete.html', {'task': task})
