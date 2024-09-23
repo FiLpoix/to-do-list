@@ -3,10 +3,52 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Atualizar Tarefa</title>
+    <title>Update Task</title>
+    <style>
+         body{
+            font-family:Arial, Helvetica, sans-serif;
+            background-color: rgb(190, 162, 210);
+        }
+
+        h1{
+            text-align: center;
+            font-size: 80px;
+        }
+
+        form{
+            text-align: center;
+            list-style: none;
+            padding: 0;
+            max-width: 600px;
+            margin: 20px auto;
+            background: #fff;
+            border-radius: 8px;
+        }
+        
+        button{
+            background: rgb(70, 197, 106);
+            border: none;
+            padding: 12px 28px;
+            text-align: center;
+            display: inline-block;
+            border-radius: 4px;
+            transition-duration: 0.4s;
+        }
+
+        button:hover{
+            background:rgb(43, 161, 77);
+        }
+
+        input[type=text]{
+            width: 90%;
+            padding: 12px 20px;
+            margin: 8px 0;
+            box-sizing: border-box; 
+        }
+    </style>
 </head>
 <body>
-    <h1>Atualizar tarefa</h1>
+    <h1>Update task</h1>
     
     <form action="" method="post">
         {% csrf_token %}
