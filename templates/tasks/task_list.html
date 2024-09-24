@@ -1,64 +1,79 @@
+{% load static %}
 <!DOCTYPE html>
 <html lang="pt-br">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Todo List</title>
-    <style>
-        body{
-            font-family:Arial, Helvetica, sans-serif;
-            background-color: rgb(190, 162, 210);
-        }
+    <link rel="stylesheet" href="{% static 'css/main.css' %}" />
+  </head>
+  <body>
+    <div class="todo-container">
+      <h1>Lista de Tarefas</h1>
+      <div class="input-container">
+        <button id="add-task-btn" ><a href="http://localhost:8000/create"> Criar nova Tarefa</a></button>
+      </div>
+      <ul id="todo-list">
+        {% for task in tasks %}
+        <li id = "task_card" >
+          {% if task.completed == True%}
+          <div class="task task_completed">
+            <span>{{ task.title }} </span>
+            <div class="button">
+              <a href="http://127.0.0.1:8000/delete/{{task.id}}">
+                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-trash" viewBox="0 0 16 16">
+                  <path d="M5.5 5.5A.5.5 0 0 1 6 6v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5m2.5 0a.5.5 0 0 1 .5.5v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5m3 .5a.5.5 0 0 0-1 0v6a.5.5 0 0 0 1 0z"/>
+                  <path d="M14.5 3a1 1 0 0 1-1 1H13v9a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V4h-.5a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1H6a1 1 0 0 1 1-1h2a1 1 0 0 1 1 1h3.5a1 1 0 0 1 1 1zM4.118 4 4 4.059V13a1 1 0 0 0 1 1h6a1 1 0 0 0 1-1V4.059L11.882 4zM2.5 3h11V2h-11z"/>
+                </svg>
+              </a>
+              <a href="http://127.0.0.1:8000/update/{{task.id}}">
+                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-arrow-clockwise" viewBox="0 0 16 16">
+                  <path fill-rule="evenodd" d="M8 3a5 5 0 1 0 4.546 2.914.5.5 0 0 1 .908-.417A6 6 0 1 1 8 2z"/>
+                  <path d="M8 4.466V.534a.25.25 0 0 1 .41-.192l2.36 1.966c.12.1.12.284 0 .384L8.41 4.658A.25.25 0 0 1 8 4.466"/>
+                </svg>
+              </a>
+            </div>
+          </div>
+          {% else%}
+          <div class="task">
+            <span>{{ task.title }} </span>
+            <div class="button">
+              <a href="http://127.0.0.1:8000/delete/{{task.id}}">
+                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-trash" viewBox="0 0 16 16">
+                  <path d="M5.5 5.5A.5.5 0 0 1 6 6v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5m2.5 0a.5.5 0 0 1 .5.5v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5m3 .5a.5.5 0 0 0-1 0v6a.5.5 0 0 0 1 0z"/>
+                  <path d="M14.5 3a1 1 0 0 1-1 1H13v9a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V4h-.5a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1H6a1 1 0 0 1 1-1h2a1 1 0 0 1 1 1h3.5a1 1 0 0 1 1 1zM4.118 4 4 4.059V13a1 1 0 0 0 1 1h6a1 1 0 0 0 1-1V4.059L11.882 4zM2.5 3h11V2h-11z"/>
+                </svg>
+              </a>
+              <a href="http://127.0.0.1:8000/update/{{task.id}}">
+                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-arrow-clockwise" viewBox="0 0 16 16">
+                  <path fill-rule="evenodd" d="M8 3a5 5 0 1 0 4.546 2.914.5.5 0 0 1 .908-.417A6 6 0 1 1 8 2z"/>
+                  <path d="M8 4.466V.534a.25.25 0 0 1 .41-.192l2.36 1.966c.12.1.12.284 0 .384L8.41 4.658A.25.25 0 0 1 8 4.466"/>
+                </svg>
+              </a>
+            </div>
+          </div>
+          {% endif %}
+        </li>
 
-        h1{
-            text-align: center;
-            font-size: 80px;
-        }
-
-        ul{
-            text-align: center;
-            list-style: none;
-            padding: 0;
-            max-width: 600px;
-            margin: 20px auto;
-            background: #fff;
-            border-radius: 8px;
-        }
-
-        li{
-            padding: 30px;
-            border-bottom: 1px solid #ddd;
-        }
-
-        li:hover {
-            background-color: #f0f0f0;
-            cursor: pointer;
-        }
-
-        .create_link{
-            display: flex;
-            justify-content: center;
-            background: rgb(70, 197, 106);
-            padding: 20px;
-            margin: 20px auto;
-            border-radius: 8px;
-            max-width: 600px;
-            text-decoration: none;
-            color: #000;
-        }
-    </style>
-</head>
-<body>
-    <h1>Todo List</h1>
-    <ul>
-        {% for task in tasks%}
-        <a href="http://127.0.0.1:8000/update/{{task.id}}">update</a>
-        <li>{{task.title}}
-            <a href="http://127.0.0.1:8000/delete/{{task.id}}">X</a></li>
         {% empty %}
-            <li>Nenhuma tarefa encontrada</li>
+        <li>Nenhuma Tarefa Encontrada</li>
         {% endfor %}
-    </ul>
-    <a href="http://127.0.0.1:8000/create" class="create_link"> Add another task</a>
-</body>
+      </ul>
+      
+      <h1>Exemplo de Modal</h1>
+      <button id="openModalBtn">Abrir Modal</button>
+      
+      <!-- Modal -->
+      <div id="modal" class="modal">
+          <div class="modal-content">
+              <span id="closeModalBtn" class="close">&times;</span>
+              <h1>Este é um modal</h1>
+              <input type="text" placeholder="Digite seu Nome">
+              <p>Texto ou conteúdo dentro do modal.</p>
+            </div>
+        </div>
+        
+        <script src="{% static 'js/script.js' %}"></script>
+    </div>
+  </body>
 </html>
